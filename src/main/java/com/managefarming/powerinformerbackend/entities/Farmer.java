@@ -3,6 +3,11 @@ package com.managefarming.powerinformerbackend.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -13,18 +18,38 @@ import lombok.*;
 public class Farmer {
 
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private long farmerId;
+    @Id @GeneratedValue
+    @Column(name = "farmer_id")
+    private Long farmerId;
 
+    @Column(name = "first_name",nullable = false)
     private String firstName;
+
+    @Column(name = "last_name",nullable = false)
     private String lastName;
-    private String PhoneNumber;
+
+    @Column(name = "phone_number",nullable = false)
+    private String phoneNumber;
+
+    @Column(name = "country_code",nullable = false)
     private String countryCode;
 
-    public Farmer(String firstName, String lastName, String phoneNumber, String countryCode) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        PhoneNumber = phoneNumber;
-        this.countryCode = countryCode;
-    }
+    @Column(name = "email", nullable = false)
+    private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    @OneToMany
+    private Set<Farm> farmList = new HashSet<Farm>();
+
+    @Column(name = "balance")
+    private Double balance;
+
+//    public Farmer(String firstName, String lastName, String phoneNumber, String countryCode) {
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.phoneNumber = phoneNumber;
+//        this.countryCode = countryCode;
+//    }
 }
