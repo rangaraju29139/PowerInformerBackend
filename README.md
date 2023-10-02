@@ -25,3 +25,20 @@ Build and application that informs the farmer whether the power exists in the re
 
 
 
+
+## Api's 
+
+
+1. Post : ```http://localhost:8080/farmers```
+   - Headers: ```Content-Type: application/json```
+     - Body: ```
+       {
+       "firstName": "xxxxx",
+       "lastName": "xxxxxxx",
+       "phoneNumber": "xxxxxxx",
+       "countryCode": "+xx",
+       "email": "xxxxxxxxxx@gmail.com",
+       "password": "xxxxxxxx",
+       "balance": xxx.0
+       }
+               ```
