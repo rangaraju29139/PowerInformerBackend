@@ -29,7 +29,7 @@ Build and application that informs the farmer whether the power exists in the re
 ## Api's 
 
 
-1. Get : ```http://localhost:8080/farmers```
+1. Post : ```http://localhost:8080/farmers```
    - Headers: ```Content-Type: application/json```
      - Body: ```
        {
