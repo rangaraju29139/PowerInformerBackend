@@ -23,4 +23,11 @@ public class FarmerService {
        return result.getFarmerId();
 
     }
+
+    public Farmer getFarmersById(Long farmerId) {
+      Farmer farmer =   farmerRepository.findById(farmerId).get();
+      if(farmer ==null) return null;
+
+      return farmer;
+    }
 }
