@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.ZonedDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -40,8 +41,9 @@ public class Farmer {
     @Column(name = "password")
     private String password;
 
-    @OneToMany
-    private Set<Farm> farmList = new HashSet<Farm>();
+    @OneToMany(targetEntity = Farm.class,cascade = CascadeType.ALL)
+    @JoinColumn(name = "farmer_id",referencedColumnName = "farmer_id")
+    private List<Farm> farms;
 
     @Column(name = "balance")
     private Double balance;

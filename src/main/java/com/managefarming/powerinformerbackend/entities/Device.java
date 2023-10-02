@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.managefarming.powerinformerbackend.enums.PowerStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import java.time.ZoneId;
@@ -16,6 +17,8 @@ import java.time.ZonedDateTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name ="device")
+
 public class Device {
 
     @Id
@@ -23,9 +26,7 @@ public class Device {
     @Column(name = "device_id")
     private Long deviceId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "farm_id")
-    private Farm farmId;
+
 
     @Column(name = "device_name")
     private String deviceName;
@@ -44,10 +45,10 @@ public class Device {
     @Column(name = "is_activated", columnDefinition = "boolean default true")
     private Boolean isActivated;
 
-    @Column(name = "alert_start_time",columnDefinition = "varchar(5) default '00:00")
+    @Column(name = "alert_start_time",columnDefinition = "varchar(5) default '00:00'")
     private String alertStartTime;
 
-    @Column(name = "alert_end_time", columnDefinition = "varchar(5) default '00:00")
+    @Column(name = "alert_end_time", columnDefinition = "varchar(5) default '00:00'")
     private String alertEndTime;
 
     @Column(name = "minutes_delay_to_notify", columnDefinition = "integer default 2")
