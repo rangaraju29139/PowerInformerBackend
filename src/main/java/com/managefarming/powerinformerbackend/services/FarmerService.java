@@ -1,6 +1,7 @@
 package com.managefarming.powerinformerbackend.services;
 
 
+import com.managefarming.powerinformerbackend.entities.Farm;
 import com.managefarming.powerinformerbackend.entities.Farmer;
 import com.managefarming.powerinformerbackend.repositories.FarmerRepository;
 import lombok.NoArgsConstructor;
@@ -30,4 +31,6 @@ public class FarmerService {
 
       return farmer;
     }
+
+
 }
