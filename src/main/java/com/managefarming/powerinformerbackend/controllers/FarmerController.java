@@ -5,10 +5,7 @@ import com.managefarming.powerinformerbackend.entities.Farmer;
 import com.managefarming.powerinformerbackend.services.FarmerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class FarmerController {
@@ -24,6 +21,16 @@ public class FarmerController {
 
         Long farmerId = farmerService.addFarmer(farmer);
         return  ResponseEntity.ok("Farmer Created at FarmerId: "+farmerId);
+    }
+
+    @RequestMapping(value = "/farmers/{farmerId}", method = RequestMethod.GET)
+    public ResponseEntity getFarmersById(@PathVariable Long farmerId){
+        Farmer farmer =  farmerService.getFarmersById(farmerId);
+
+        if(farmer == null){
+            return ResponseEntity.notFound().header("Content-Type", "application/json").build();
+        }
+        return ResponseEntity.ok().body(farmer);
     }
 
 

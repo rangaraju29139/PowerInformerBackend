@@ -1,6 +1,7 @@
 package com.managefarming.powerinformerbackend.services;
 
 
+import com.managefarming.powerinformerbackend.entities.Farm;
 import com.managefarming.powerinformerbackend.entities.Farmer;
 import com.managefarming.powerinformerbackend.repositories.FarmerRepository;
 import lombok.NoArgsConstructor;
@@ -23,4 +24,13 @@ public class FarmerService {
        return result.getFarmerId();
 
     }
+
+    public Farmer getFarmersById(Long farmerId) {
+      Farmer farmer =   farmerRepository.findById(farmerId).get();
+      if(farmer ==null) return null;
+
+      return farmer;
+    }
+
+
 }

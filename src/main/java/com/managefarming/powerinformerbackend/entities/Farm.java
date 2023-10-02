@@ -3,6 +3,7 @@ package com.managefarming.powerinformerbackend.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.core.annotation.Order;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,9 +24,6 @@ public class Farm {
     @Column(name = "farm_id")
     private long farmId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "farmer_id")
-    private Farmer farmerId;
 
     @Column(name = "farm_name")
     private String farmName;
@@ -34,7 +32,8 @@ public class Farm {
     private String locationDescription;
 
     @JsonIgnore
-    @OneToMany
+    @OneToMany(targetEntity = Device.class,cascade = CascadeType.ALL)
+            @JoinColumn(name = "farm_id",referencedColumnName = "farm_id")
     Set<Device> devicesList = new HashSet<>();
 //
 //    public Farm( farmerId, String name, String locationDescription) {
