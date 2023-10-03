@@ -17,6 +17,7 @@ import java.time.ZonedDateTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name ="device")
 
 public class Device {
