@@ -29,9 +29,14 @@ public class FarmController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{farmId}")
                 .buildAndExpand(result.getFarmId()).toUri();
         return ResponseEntity.created(location).build();
+    }
 
-
-
-
+    @RequestMapping(value="/farms/{farmId}",method = RequestMethod.GET)
+    public ResponseEntity<FarmResponseDto> getFarm(@PathVariable Long farmId){
+        FarmResponseDto farmResponseDto = farmService.getFarmByFarmId(farmId);
+        if(farmResponseDto==null){
+            throw new FarmNotFoundException("farm with id " + farmId + " not found");
+        }
+        return ResponseEntity.ok(farmResponseDto);
     }
 }

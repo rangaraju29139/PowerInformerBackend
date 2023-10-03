@@ -6,6 +6,7 @@ import com.managefarming.powerinformerbackend.DTO.farm.mappers.FarmResponseDtoMa
 import com.managefarming.powerinformerbackend.DTO.farmer.mappers.FarmerResponseDtoMapper;
 import com.managefarming.powerinformerbackend.entities.Farm;
 import com.managefarming.powerinformerbackend.entities.Farmer;
+import com.managefarming.powerinformerbackend.repositories.FarmRepository;
 import com.managefarming.powerinformerbackend.repositories.FarmerRepository;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ public class FarmService {
 
     @Autowired
     private FarmerRepository farmerRepository;
-//    @Autowired
-//    private FarmerRepository farmerRepository;
+    @Autowired
+    private FarmRepository farmRepository;
 
 
 
@@ -31,4 +32,14 @@ public class FarmService {
     }
 
 
+    public FarmResponseDto getFarmByFarmId(Long farmId) {
+
+        Farm farm = (Farm) farmRepository.findById(farmId).stream().findFirst().get();
+        if(farm == null){
+            return null;
+
+        }
+        return FarmResponseDtoMapper.mapToFarmResponseDto(farm);
+
+    }
 }
