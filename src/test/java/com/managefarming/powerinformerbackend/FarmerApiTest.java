@@ -1,2 +1,4 @@
-package com.managefarming.powerinformerbackend;public class FarmerApiTest {
+package com.managefarming.powerinformerbackend;
+
+public class FarmerApiTest {
 }

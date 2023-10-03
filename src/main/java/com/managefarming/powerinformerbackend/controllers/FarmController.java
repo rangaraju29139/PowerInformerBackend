@@ -1,2 +1,4 @@
-package com.managefarming.powerinformerbackend.controllers;public class FarmController {
+package com.managefarming.powerinformerbackend.controllers;
+
+public class FarmController {
 }

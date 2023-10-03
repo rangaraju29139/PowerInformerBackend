@@ -20,7 +20,7 @@ import java.util.Set;
 public class Farmer {
 
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "farmer_id")
     private Long farmerId;
 

@@ -23,4 +23,12 @@ public class FarmerService {
         return FarmerResponseDtoMapper.maptoResponseDto(result);
 
     }
+
+    public FarmerResponseDto getFarmerByFarmerId(Long farmerId) {
+        Farmer farmer = farmerRepository.findById(farmerId).stream().findFirst().get();
+        if(farmer == null){
+            return null;
+        }
+        return FarmerResponseDtoMapper.maptoResponseDto(farmer);
+    }
 }
