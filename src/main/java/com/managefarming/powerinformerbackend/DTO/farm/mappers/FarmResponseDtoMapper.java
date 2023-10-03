@@ -7,12 +7,12 @@ import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class FarmResponseDtoMapper {
-    public FarmResponseDto mapToFarmResponseDto(Farm farm){
-        FarmResponseDto result = new FarmResponseDto().builder().farmId(farm.getFarmId())
+    public static FarmResponseDto mapToFarmResponseDto(Farm farm){
+        FarmResponseDto result = FarmResponseDto.builder().farmId(farm.getFarmId())
                 .farmName(farm.getFarmName())
                 .locationDescription(farm.getLocationDescription()).build();
 
