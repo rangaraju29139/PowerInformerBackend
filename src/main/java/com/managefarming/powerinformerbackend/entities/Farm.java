@@ -25,6 +25,13 @@ public class Farm {
     @Column(name = "farm_id")
     private long farmId;
 
+    @ManyToOne
+    @JoinColumn(name = "farmer_id")
+    private Farmer farmer;
+
+//    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL)
+//    private Set<Device> devices = new HashSet<>();
+
 
     @Column(name = "farm_name")
     private String farmName;
@@ -32,10 +39,7 @@ public class Farm {
     @Column(name = "location_description")
     private String locationDescription;
 
-    @JsonIgnore
-    @OneToMany(targetEntity = Device.class,cascade = CascadeType.ALL)
-            @JoinColumn(name = "farm_id",referencedColumnName = "farm_id")
-    Set<Device> devicesList = new HashSet<>();
+
 //
 //    public Farm( farmerId, String name, String locationDescription) {
 //        this.farmerId = farmerId;

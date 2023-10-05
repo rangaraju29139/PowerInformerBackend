@@ -42,9 +42,8 @@ public class Farmer {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(targetEntity = Farm.class,cascade = CascadeType.ALL)
-    @JoinColumn(name = "farmer_id",referencedColumnName = "farmer_id")
-    private List<Farm> farms;
+    @OneToMany(mappedBy = "farmer", cascade = CascadeType.ALL)
+    private Set<Farm> farms = new HashSet<>();
 
     @Column(name = "balance")
     private Double balance;

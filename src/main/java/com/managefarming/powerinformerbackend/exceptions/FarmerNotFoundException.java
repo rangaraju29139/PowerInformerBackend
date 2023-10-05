@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Getter
 @Setter
 @AllArgsConstructor
-public class FarmerNotFoundException extends RuntimeException{
- private String message;
+public class FarmerNotFoundException extends Exception{
+ public FarmerNotFoundException(String message){
+  super(message);
+  System.out.println("Farmer Not Found");
+ }
 
 }

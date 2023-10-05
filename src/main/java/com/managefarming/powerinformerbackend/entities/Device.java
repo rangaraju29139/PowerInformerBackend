@@ -27,6 +27,9 @@ public class Device {
     @Column(name = "device_id")
     private Long deviceId;
 
+//    @ManyToOne
+//    @JoinColumn(name = "farm_id")
+//    private Farm farmId;
 
 
     @Column(name = "device_name")
@@ -39,7 +42,7 @@ public class Device {
     @Column(name = "current_device_status")
     private PowerStatus currentDeviceStatus;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd@HH:mm:ss",locale = "en_IN")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd@HH:mm:ss",locale = "en_IN")
     @Column(name = "last_heartbeat_signal")
     private ZonedDateTime lastHeartBeatSignal;
 
