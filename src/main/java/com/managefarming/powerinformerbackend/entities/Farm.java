@@ -26,11 +26,8 @@ public class Farm {
     private long farmId;
 
     @ManyToOne
-    @JoinColumn(name = "farmer_id")
+    @JoinColumn(name = "farmer_id",referencedColumnName = "farmer_id",nullable = false)
     private Farmer farmer;
-
-//    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL)
-//    private Set<Device> devices = new HashSet<>();
 
 
     @Column(name = "farm_name")

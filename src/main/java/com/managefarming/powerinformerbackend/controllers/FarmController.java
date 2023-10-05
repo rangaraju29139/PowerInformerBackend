@@ -1,7 +1,9 @@
 package com.managefarming.powerinformerbackend.controllers;
 
 
+import com.managefarming.powerinformerbackend.DTO.device.DeviceDto;
 import com.managefarming.powerinformerbackend.DTO.farm.FarmResponseDto;
+import com.managefarming.powerinformerbackend.entities.Device;
 import com.managefarming.powerinformerbackend.entities.Farm;
 import com.managefarming.powerinformerbackend.exceptions.FarmNotFoundException;
 import com.managefarming.powerinformerbackend.services.FarmService;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 public class FarmController {
@@ -38,5 +41,14 @@ public class FarmController {
             throw new FarmNotFoundException("farm with id " + farmId + " not found");
         }
         return ResponseEntity.ok(farmResponseDto);
+    }
+
+    @RequestMapping(value = "/farms/{farmId}/devices", method=RequestMethod.GET)
+    public ResponseEntity<List<DeviceDto>> getDevicesByFarmId(@PathVariable Long farmId){
+        List<DeviceDto> result = farmService.getDevicesByFarmId(farmId);
+        if(result == null){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(result);
     }
 }

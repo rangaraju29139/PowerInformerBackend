@@ -48,15 +48,15 @@ public class FarmerController {
         return ResponseEntity.ok(result);
     }
 
-//    @RequestMapping(value = "/farmers/{farmerId}/farms",method = RequestMethod.GET)
-//    public ResponseEntity<List<FarmResponseDto>> getFarmsByFarmerId(@PathVariable Long farmerId){
-//        List<FarmResponseDto> result = farmerService.getFarmersByFarmerId(farmerId);
-//
-//        if(result==null){
-//            throw new FarmNotFoundException("farm with farmer id " +farmerId + " not found");
-//        }
-//        return ResponseEntity.ok(result);
-//    }
+    @RequestMapping(value = "/farmers/{farmerId}/farms",method = RequestMethod.GET)
+    public ResponseEntity<List<FarmResponseDto>> getFarmsByFarmerId(@PathVariable Long farmerId){
+        List<FarmResponseDto> result = farmerService.getFarmersByFarmerId(farmerId);
+
+        if(result==null){
+            throw new FarmNotFoundException("farm with farmer id " +farmerId + " not found");
+        }
+        return ResponseEntity.ok(result);
+    }
 
 
 

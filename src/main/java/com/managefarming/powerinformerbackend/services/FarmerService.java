@@ -44,12 +44,16 @@ public class FarmerService {
         return FarmerResponseDtoMapper.maptoResponseDto(farmer);
     }
 
-//    public List<FarmResponseDto> getFarmersByFarmerId(Long farmerId) {
-//        List<Farm> result = farmRepository.findByFarmerId(farmerId).stream().toList();
-//        if(result ==null){
-//            return null;
-//        }
-//        List<FarmResponseDto> farmResponseDtoList = result.stream().map(farm -> FarmResponseDtoMapper.mapToFarmResponseDto(farm)).toList();
-//        return farmResponseDtoList;
-//    }
+
+
+    public List<FarmResponseDto> getFarmersByFarmerId(Long farmerId) {
+        Farmer farmer = farmerRepository.findById(farmerId).get();
+
+        List<Farm> result = farmRepository.findByFarmer(farmer).stream().toList();
+        if(result ==null){
+            return null;
+        }
+        List<FarmResponseDto> farmResponseDtoList = result.stream().map(farm -> FarmResponseDtoMapper.mapToFarmResponseDto(farm)).toList();
+        return farmResponseDtoList;
+    }
 }
