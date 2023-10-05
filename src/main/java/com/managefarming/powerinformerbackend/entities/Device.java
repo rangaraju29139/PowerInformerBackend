@@ -26,10 +26,9 @@ public class Device {
     @GeneratedValue
     @Column(name = "device_id")
     private Long deviceId;
-
-//    @ManyToOne
-//    @JoinColumn(name = "farm_id")
-//    private Farm farmId;
+    @ManyToOne
+    @JoinColumn(name = "farm_id",referencedColumnName = "farm_id",nullable = false)
+    private Farm farm;
 
 
     @Column(name = "device_name")

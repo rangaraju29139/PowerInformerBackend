@@ -23,10 +23,10 @@ public class FarmService {
 
 
 
-    public FarmResponseDto createFarm(Long farmerId, Farm farm){
-        Farmer farmer = farmerRepository.findById(farmerId).stream().findFirst().get();
-        farmer.getFarms().add(farm);
-        farmerRepository.save(farmer);
+    public FarmResponseDto createFarm(Long farmerId,Farm farm){
+        Farmer farmer = farmerRepository.findById(farmerId).get();
+        farm.setFarmer(farmer);
+        farmRepository.save(farm);
         return FarmResponseDtoMapper.mapToFarmResponseDto(farm);
 
     }
@@ -41,6 +41,7 @@ public class FarmService {
         }
         return FarmResponseDtoMapper.mapToFarmResponseDto(farm);
     }
+
 
 
 }

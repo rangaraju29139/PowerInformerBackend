@@ -1,2 +1,14 @@
-package com.managefarming.powerinformerbackend.controllers;public class ContactInfoController {
+package com.managefarming.powerinformerbackend.controllers;
+
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ContactInfoController {
+
+
+
+
 }
