@@ -34,12 +34,13 @@ public class FarmService {
 
     public FarmResponseDto getFarmByFarmId(Long farmId) {
 
-        Farm farm = (Farm) farmRepository.findById(farmId).stream().findFirst().get();
+        Farm farm = farmRepository.findById(farmId).stream().findFirst().get();
         if(farm == null){
             return null;
 
         }
         return FarmResponseDtoMapper.mapToFarmResponseDto(farm);
-
     }
+
+
 }

@@ -49,7 +49,6 @@ public class FarmerRepositoryTest {
         assertThat(result).isNotNull();
         assertThat(result.getFarmerId()).isEqualTo(farmer.getFarmerId());
         assertThat(result.getEmail()).isEqualTo(farmer.getEmail());
-
         Farmer result1= farmerRepository.findById(result.getFarmerId()).stream().findFirst().get();
         assertThat(result1.getFarmerId()).isEqualTo(result.getFarmerId());
         assertThat(result1.getEmail()).isEqualTo(farmer.getEmail());
