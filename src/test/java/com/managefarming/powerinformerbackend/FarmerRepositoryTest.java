@@ -31,7 +31,7 @@ public class FarmerRepositoryTest {
     }
 
     @Test
-    public void creatingEmployee(){
+    public void create_farmer_test(){
         Farmer result = farmerRepository.save(farmer);
         assertThat(result).isNotNull();
         assertThat(result.getFarmerId()).isEqualTo(farmer.getFarmerId());
@@ -40,5 +40,25 @@ public class FarmerRepositoryTest {
         //delete farmer created
         farmerRepository.deleteById(result.getFarmerId());
         assertThat(farmerRepository.findById(result.getFarmerId())).isEmpty();
+    }
+
+    @Test
+    public void get_farmer_by_id_test(){
+
+        Farmer result = farmerRepository.save(farmer);
+        assertThat(result).isNotNull();
+        assertThat(result.getFarmerId()).isEqualTo(farmer.getFarmerId());
+        assertThat(result.getEmail()).isEqualTo(farmer.getEmail());
+
+        Farmer result1= farmerRepository.findById(result.getFarmerId()).stream().findFirst().get();
+        assertThat(result1.getFarmerId()).isEqualTo(result.getFarmerId());
+        assertThat(result1.getEmail()).isEqualTo(farmer.getEmail());
+        assertThat(result1.getPhoneNumber()).isEqualTo(farmer.getPhoneNumber());
+
+
+        //delete farmer created
+        farmerRepository.deleteById(result.getFarmerId());
+        assertThat(farmerRepository.findById(result.getFarmerId())).isEmpty();
+
     }
 }
