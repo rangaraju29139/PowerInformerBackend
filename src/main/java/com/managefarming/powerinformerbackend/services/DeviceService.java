@@ -32,4 +32,6 @@ public class DeviceService {
         Device device = deviceRepository.findById(deviceId).orElse(null);
         return DeviceDtoMapper.maptoDeviceDto(device);
     }
+
+
 }
