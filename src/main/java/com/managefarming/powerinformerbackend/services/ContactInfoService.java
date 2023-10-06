@@ -42,7 +42,7 @@ public class ContactInfoService {
 
     public List<ContactInfoDto> getAllContactInfoByDeviceId(Long deviceId) {
         Device device = deviceRepository.findById(deviceId).get();
-        List<ContactInfo> contactInfoList = contactInfoRepository.findAllByDevice(device);
+        List<ContactInfo> contactInfoList = contactInfoRepository.findAllByDeviceOrderByDevice(device);
         if(contactInfoList == null){
             return null;
         }
