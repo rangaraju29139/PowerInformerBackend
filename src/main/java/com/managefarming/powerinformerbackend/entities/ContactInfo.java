@@ -1,11 +1,14 @@
 package com.managefarming.powerinformerbackend.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class ContactInfo {
 
 
@@ -14,7 +17,9 @@ public class ContactInfo {
     private Long id;
 
     //should refer the device id in device table
-    private Long DeviceId;
+    @ManyToOne
+    @JoinColumn(name ="device_id",referencedColumnName = "device_id",nullable = false)
+    private Device device;
 
 
     // will be the order in which the contact get notified.
