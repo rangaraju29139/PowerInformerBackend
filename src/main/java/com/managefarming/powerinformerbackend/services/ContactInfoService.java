@@ -38,4 +38,14 @@ public class ContactInfoService {
         return contactInfoDtoList;
 
     }
+
+
+    public List<ContactInfoDto> getAllContactInfoByDeviceId(Long deviceId) {
+        Device device = deviceRepository.findById(deviceId).get();
+        List<ContactInfo> contactInfoList = contactInfoRepository.findAllByDevice(device);
+        if(contactInfoList == null){
+            return null;
+        }
+        return contactInfoList.stream().map(ContactInfoDtoMapper::maptoContactInfoDto).collect(Collectors.toList());
+    }
 }
