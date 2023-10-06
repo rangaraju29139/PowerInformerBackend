@@ -5,6 +5,7 @@ import com.managefarming.powerinformerbackend.DTO.device.DeviceDto;
 import com.managefarming.powerinformerbackend.entities.Device;
 import com.managefarming.powerinformerbackend.exceptions.DeviceNotCreatedException;
 import com.managefarming.powerinformerbackend.services.DeviceService;
+import com.managefarming.powerinformerbackend.services.FarmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,9 @@ public class DeviceController {
 
     @Autowired
     private DeviceService deviceService;
+
+    @Autowired
+    private FarmService farmService;
 
 
     @RequestMapping(value = "/farms/{farmId}/devices",method = RequestMethod.POST)
@@ -33,7 +37,7 @@ public class DeviceController {
     }
 
 
-    @RequestMapping(value = "/devices/{deviceId}",method = RequestMethod.GET)
+    @RequestMapping(value ="/devices/{deviceId}",method = RequestMethod.GET)
     public ResponseEntity<DeviceDto> getDeviceById(@PathVariable Long deviceId){
         DeviceDto deviceDto = deviceService.getDeviceById(deviceId);
 
@@ -42,5 +46,12 @@ public class DeviceController {
         }
         return ResponseEntity.ok(deviceDto);
     }
+
+    @RequestMapping(value = "/farms/{farmId}/devices/{deviceId}",method = RequestMethod.GET)
+    public ResponseEntity<DeviceDto> getDeviceByDeviceId(@PathVariable Long farmId, @PathVariable Long deviceId){
+        return getDeviceById(deviceId);
+    }
+
+
 
 }
