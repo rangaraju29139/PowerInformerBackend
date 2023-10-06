@@ -27,7 +27,7 @@ public class ContactInfoController {
       return ResponseEntity.ok(contactInfoDtos);
   }
 
-    @RequestMapping(value = "/devices/{deviceId}/contact-info/", method = RequestMethod.GET)
+    @RequestMapping(value = "/devices/{deviceId}/contact-info", method = RequestMethod.GET)
     public ResponseEntity<List<ContactInfoDto>> getAllContactInfoByDeviceId(@PathVariable  Long deviceId) throws ContactInfoNotFoundException {
         List<ContactInfoDto> contactInfo = contactInfoService.getAllContactInfoByDeviceId(deviceId);
 

@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface ContactInfoRepository extends JpaRepository<ContactInfo,Long> {
 
-    List<ContactInfo> findAllByDevice(Device device);
+    List<ContactInfo> findAllByDeviceOrderByDevice(Device device);
 }
