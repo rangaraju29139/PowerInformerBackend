@@ -37,7 +37,7 @@ public class DeviceHeartBeatService {
 
     //run the checkEventStatus every 5 seconds
 
-    @Scheduled(fixedRate = 5000,initialDelay = 15000)
+    @Scheduled(fixedRate = 15000,initialDelay = 30000)
     public void checkAllDeviceEventStatus(){
         List<Device> allDevices = deviceRepository.findAll();
 
