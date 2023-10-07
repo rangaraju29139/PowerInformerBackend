@@ -5,6 +5,7 @@ import com.managefarming.powerinformerbackend.entities.DeviceEvent;
 import com.managefarming.powerinformerbackend.enums.DeviceEventType;
 import com.managefarming.powerinformerbackend.enums.PowerStatus;
 import com.managefarming.powerinformerbackend.exceptions.DeviceEventNotCreatedException;
+import com.managefarming.powerinformerbackend.repositories.DeviceEventRepository;
 import com.managefarming.powerinformerbackend.repositories.DeviceRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 
 @Service
@@ -33,6 +36,9 @@ public class DeviceHeartBeatService {
 
     @Autowired
     private DeviceEventService deviceEventService;
+
+    @Autowired
+    private DeviceEventRepository deviceEventRepository;
 
 
     //run the checkEventStatus every 5 seconds
@@ -53,6 +59,27 @@ public class DeviceHeartBeatService {
 
     }
 
+    @Scheduled(fixedRate = 200000,initialDelay = 100000)
+    public void deleteOldEventDataFromDeviceEvent(){
+        List<DeviceEvent> deviceEvents = deviceEventRepository.findAll();
+
+        Predicate<DeviceEvent> predicate  = (deviceEvent -> {
+           int numDaysLogKeeping = deviceRepository.findById(deviceEvent.getDevice().getDeviceId()).get().getNumDaysLogKeeping();
+
+         if(timeDifference(ZonedDateTime.now(ZoneId.of("Asia/Calcutta")),deviceEvent.getEventTime()) > numDaysLogKeeping*20){
+             return true;
+         }
+         return false;
+        });
+
+        Consumer<DeviceEvent> consumer = (deviceEvent -> {
+             deviceRepository.deleteById(deviceEvent.getId());
+        });
+        if(deviceEvents.size() > 0){
+           deviceEvents.stream().filter(predicate).forEach(consumer);
+        }
+    }
+
 
 
 
@@ -65,7 +92,7 @@ public class DeviceHeartBeatService {
         }
         Optional<DeviceEvent> deviceEvent = checkAndUpdateDeviceEvent(device);
 
-        device.setLastHeartBeatSignal(ZonedDateTime.now());
+        device.setLastHeartBeatSignal(ZonedDateTime.now(ZoneId.of("Asia/Calcutta")));
         deviceRepository.save(device);
 
         return deviceEvent;
