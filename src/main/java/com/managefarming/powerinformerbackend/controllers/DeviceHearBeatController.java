@@ -2,6 +2,7 @@ package com.managefarming.powerinformerbackend.controllers;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.managefarming.powerinformerbackend.DTO.deviceEvent.mappers.DeviceEventDtoMapper;
 import com.managefarming.powerinformerbackend.entities.DeviceEvent;
 import com.managefarming.powerinformerbackend.exceptions.DeviceEventNotCreatedException;
 import com.managefarming.powerinformerbackend.services.DeviceHeartBeatService;
@@ -28,6 +29,7 @@ public class DeviceHearBeatController {
                     }
                     """);
         }
-        return ResponseEntity.ok(deviceEvent);
+
+        return ResponseEntity.ok(DeviceEventDtoMapper.mapToDeviceEventDto(deviceEvent.get()));
     }
 }

@@ -2,6 +2,8 @@ package com.managefarming.powerinformerbackend.controllers;
 
 
 import com.managefarming.powerinformerbackend.DTO.device.DeviceDto;
+import com.managefarming.powerinformerbackend.DTO.device.DeviceRequestDto;
+import com.managefarming.powerinformerbackend.DTO.device.mapper.DeviceRequestDtoMapper;
 import com.managefarming.powerinformerbackend.entities.Device;
 import com.managefarming.powerinformerbackend.exceptions.DeviceNotCreatedException;
 import com.managefarming.powerinformerbackend.services.DeviceService;
@@ -24,7 +26,9 @@ public class DeviceController {
 
 
     @RequestMapping(value = "/farms/{farmId}/devices",method = RequestMethod.POST)
-    public ResponseEntity  createDevice(@PathVariable Long farmId, @RequestBody Device device) throws DeviceNotCreatedException {
+    public ResponseEntity  createDevice(@PathVariable Long farmId, @RequestBody DeviceRequestDto deviceRequestDto) throws DeviceNotCreatedException {
+
+        Device device = DeviceRequestDtoMapper.maptoDevice(deviceRequestDto);
         DeviceDto deviceDto = deviceService.createDevice(farmId,device);
         if(deviceDto == null){
             throw new DeviceNotCreatedException("Device Not Created");
