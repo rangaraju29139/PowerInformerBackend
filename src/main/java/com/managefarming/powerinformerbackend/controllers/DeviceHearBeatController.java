@@ -2,6 +2,7 @@ package com.managefarming.powerinformerbackend.controllers;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.managefarming.powerinformerbackend.DTO.deviceEvent.mappers.DeviceEventDtoMapper;
 import com.managefarming.powerinformerbackend.entities.DeviceEvent;
 import com.managefarming.powerinformerbackend.exceptions.DeviceEventNotCreatedException;
 import com.managefarming.powerinformerbackend.services.DeviceHeartBeatService;
@@ -21,13 +22,14 @@ public class DeviceHearBeatController {
     @RequestMapping(value = "/devices/{deviceId}/heart-beat", method = RequestMethod.GET)
     public ResponseEntity handleDeviceHeartBeat(@PathVariable Long deviceId, @RequestParam String deviceAuthCode) throws DeviceEventNotCreatedException {
         Optional<DeviceEvent> deviceEvent = deviceHeartBeatService.handleDeviceHeartBeat(deviceId,deviceAuthCode);
-        if(deviceEvent == null){
+        if(deviceEvent==null){
             return ResponseEntity.ok("""
                     {
                     "status": "No new Event Found"
                     }
                     """);
         }
-        return ResponseEntity.ok(deviceEvent);
+
+        return ResponseEntity.ok(DeviceEventDtoMapper.mapToDeviceEventDto(deviceEvent.get()));
     }
 }
