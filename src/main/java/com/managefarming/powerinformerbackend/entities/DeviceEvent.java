@@ -3,9 +3,7 @@ package com.managefarming.powerinformerbackend.entities;
 
 import com.managefarming.powerinformerbackend.enums.DeviceEventType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.ZonedDateTime;
 
@@ -13,6 +11,8 @@ import java.time.ZonedDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class DeviceEvent {
 
     @Id

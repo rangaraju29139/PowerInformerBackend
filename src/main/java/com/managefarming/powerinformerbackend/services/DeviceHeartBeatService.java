@@ -6,14 +6,21 @@ import com.managefarming.powerinformerbackend.enums.DeviceEventType;
 import com.managefarming.powerinformerbackend.enums.PowerStatus;
 import com.managefarming.powerinformerbackend.exceptions.DeviceEventNotCreatedException;
 import com.managefarming.powerinformerbackend.repositories.DeviceRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 
 @Service
+@Log4j2
+@EnableScheduling
 public class DeviceHeartBeatService {
 
 
@@ -26,6 +33,25 @@ public class DeviceHeartBeatService {
 
     @Autowired
     private DeviceEventService deviceEventService;
+
+
+    //run the checkEventStatus every 5 seconds
+
+    @Scheduled(fixedRate = 5000,initialDelay = 15000)
+    public void checkAllDeviceEventStatus(){
+        List<Device> allDevices = deviceRepository.findAll();
+
+        Consumer<Device> consumer = (device)-> {
+          Optional<DeviceEvent> event = checkAndUpdateDeviceEvent(device);
+          if(event!= null){
+
+              log.info("Event Occured on Device Id "+device.getDeviceId() + " Device name: "+device.getDeviceName()+ " Event: "+ event.get().getEventType()+" At time: "+ event.get().getEventTime());
+              System.out.println("Event Occured on Device Id "+device.getDeviceId() + " Device name: "+device.getDeviceName()+ " Event: "+ event.get().getEventType()+" At time: "+ event.get().getEventTime());
+          }
+        };
+        allDevices.forEach(consumer);
+
+    }
 
 
 
@@ -49,7 +75,7 @@ public class DeviceHeartBeatService {
         return Math.abs((int)(now.toEpochSecond() - lastHearBeatSignal.toEpochSecond())/60);
     }
 
-    public Optional<DeviceEvent> checkAndUpdateDeviceEvent(Device device) throws DeviceEventNotCreatedException {
+    public Optional<DeviceEvent> checkAndUpdateDeviceEvent(Device device)  {
 
         Optional<DeviceEvent> event = null;
 

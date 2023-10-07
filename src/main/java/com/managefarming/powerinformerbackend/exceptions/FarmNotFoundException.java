@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Setter
 @AllArgsConstructor
 public class FarmNotFoundException extends RuntimeException{
- private String message;
+ public FarmNotFoundException(String message){
+  super(message);
+  System.out.println(message);
+ }
 
 }
