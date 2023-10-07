@@ -82,6 +82,32 @@ public class InitialDataCommandLIneRunner implements CommandLineRunner {
         );
         List<ContactInfo> contactInfos = contactInfoRepository.saveAll(contactInfo);
 
+        // device 2 in farm 1
+
+        Device device2 = Device.builder()
+                .deviceAuthCode("123")
+                .deviceName("4 Acers monitor")
+                .currentDeviceStatus(PowerStatus.NOT_AVAILABLE)
+                .isActivated(true)
+                .farm(savedFarm)
+                .alertStartTime("00:00")
+                .alertEndTime("00:00")
+                .lastHeartBeatSignal(ZonedDateTime.now().minusMinutes(30))
+                .minutesDelayToNotify(1)
+                .numDaysLogKeeping(1)
+                .build();
+
+        Device savedDevice2 = deviceRepository.save(device2);
+
+        List<ContactInfo> contactInfo2 = Arrays.asList(
+                ContactInfo.builder().priority(1).contactName("rangaraju1").countryCode("+91").device(savedDevice2).phoneNumber("9154644777").build(),
+                ContactInfo.builder().priority(2).contactName("rangaraju2").countryCode("+91").device(savedDevice2).phoneNumber("8341344777").build(),
+                ContactInfo.builder().priority(3).contactName("rangaraju3").countryCode("+91").device(savedDevice2).phoneNumber("9154644777").build(),
+                ContactInfo.builder().priority(4).contactName("rangaraju4").countryCode("+91").device(savedDevice2).phoneNumber("9154644777").build(),
+                ContactInfo.builder().priority(5).contactName("rangaraju5").countryCode("+91").device(savedDevice2).phoneNumber("9154644777").build()
+        );
+        List<ContactInfo> contactInfos2 = contactInfoRepository.saveAll(contactInfo2);
+
 
     }
 }
