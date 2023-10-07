@@ -1,6 +1,6 @@
 package com.managefarming.powerinformerbackend.exceptions;
 
-public class ContactInfoNotFoundException extends Exception{
+public class ContactInfoNotFoundException extends RuntimeException{
 
     public ContactInfoNotFoundException(String message){
         super(message);
