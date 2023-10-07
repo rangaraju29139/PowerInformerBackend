@@ -22,7 +22,7 @@ public class DeviceHearBeatController {
     @RequestMapping(value = "/devices/{deviceId}/heart-beat", method = RequestMethod.GET)
     public ResponseEntity handleDeviceHeartBeat(@PathVariable Long deviceId, @RequestParam String deviceAuthCode) throws DeviceEventNotCreatedException {
         Optional<DeviceEvent> deviceEvent = deviceHeartBeatService.handleDeviceHeartBeat(deviceId,deviceAuthCode);
-        if(deviceEvent == null){
+        if(deviceEvent==null){
             return ResponseEntity.ok("""
                     {
                     "status": "No new Event Found"

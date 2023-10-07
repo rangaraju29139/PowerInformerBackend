@@ -94,7 +94,6 @@ public class DeviceHeartBeatService {
 
         device.setLastHeartBeatSignal(ZonedDateTime.now(ZoneId.of("Asia/Calcutta")));
         deviceRepository.save(device);
-
         return deviceEvent;
     }
 
@@ -102,26 +101,28 @@ public class DeviceHeartBeatService {
         return Math.abs((int)(now.toEpochSecond() - lastHearBeatSignal.toEpochSecond())/60);
     }
 
-    public Optional<DeviceEvent> checkAndUpdateDeviceEvent(Device device)  {
+    public synchronized  Optional<DeviceEvent>  checkAndUpdateDeviceEvent(Device device)  {
 
         Optional<DeviceEvent> event = null;
 
+
         ZonedDateTime lastHearBeat = device.getLastHeartBeatSignal();
-        ZonedDateTime now  = ZonedDateTime.now();
+        ZonedDateTime now  = ZonedDateTime.now(ZoneId.of("Asia/Calcutta"));
         if(timeDifference(now,lastHearBeat) > device.getMinutesDelayToNotify() ){
             if(device.getCurrentDeviceStatus() == PowerStatus.AVAILABLE){
                 device.setCurrentDeviceStatus(PowerStatus.NOT_AVAILABLE);
 
               event = Optional.ofNullable(deviceEventService.udpateEvent(device, DeviceEventType.ON_TO_OFF));
                 twilioService.sendInformation(device,DeviceEventType.ON_TO_OFF);
-            }else{
+            }else if(device.getCurrentDeviceStatus() == PowerStatus.NOT_AVAILABLE){
                 device.setCurrentDeviceStatus(PowerStatus.AVAILABLE);
-
              event = Optional.ofNullable(deviceEventService.udpateEvent(device, DeviceEventType.OFF_TO_ON));
                 twilioService.sendInformation(device,DeviceEventType.OFF_TO_ON);
             }
 
         }
+
+        deviceRepository.save(device);
         return event;
     }
 }
