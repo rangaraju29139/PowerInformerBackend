@@ -1,6 +1,6 @@
 package com.managefarming.powerinformerbackend.exceptions;
 
-public class DeviceNotCreatedException extends Exception {
+public class DeviceNotCreatedException extends RuntimeException {
 
     public DeviceNotCreatedException(String message){
         super(message);

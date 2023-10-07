@@ -24,7 +24,7 @@ public class ContactInfoService {
     private DeviceRepository deviceRepository;
 
 
-    public List<ContactInfoDto> createDeviceContactInfo(Long deviceId, List<ContactInfo> contactInfo) throws ContactInfoNotCreatedException {
+    public List<ContactInfoDto> createDeviceContactInfo(Long deviceId, List<ContactInfo> contactInfo)  {
         Device device = deviceRepository.findById(deviceId).get();
 
         contactInfo.forEach(contact -> contact.setDevice(device));

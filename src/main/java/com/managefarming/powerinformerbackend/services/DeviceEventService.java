@@ -16,7 +16,7 @@ public class DeviceEventService {
 
     @Autowired
     private DeviceEventRepository deviceEventRepository;
-    public DeviceEvent udpateEvent(Device device, DeviceEventType deviceEventType) throws DeviceEventNotCreatedException {
+    public DeviceEvent udpateEvent(Device device, DeviceEventType deviceEventType)  {
         DeviceEvent event = DeviceEvent.builder()
                 .eventTime(ZonedDateTime.now())
                 .eventType(deviceEventType)
