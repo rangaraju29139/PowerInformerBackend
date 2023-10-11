@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -66,7 +66,7 @@ public class InitialDataCommandLIneRunner implements CommandLineRunner {
                 .farm(savedFarm)
                 .alertStartTime("00:00")
                 .alertEndTime("00:00")
-                .lastHeartBeatSignal(ZonedDateTime.now().minusMinutes(30))
+                .lastHeartBeatSignal(LocalDateTime.now().minusMinutes(30))
                 .minutesDelayToNotify(1)
                 .numDaysLogKeeping(1)
                 .build();
@@ -92,7 +92,7 @@ public class InitialDataCommandLIneRunner implements CommandLineRunner {
                 .farm(savedFarm)
                 .alertStartTime("00:00")
                 .alertEndTime("00:00")
-                .lastHeartBeatSignal(ZonedDateTime.now().minusMinutes(30))
+                .lastHeartBeatSignal(LocalDateTime.now().minusMinutes(30))
                 .minutesDelayToNotify(1)
                 .numDaysLogKeeping(1)
                 .build();

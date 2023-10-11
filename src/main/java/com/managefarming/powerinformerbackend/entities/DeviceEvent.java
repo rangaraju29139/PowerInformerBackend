@@ -5,7 +5,7 @@ import com.managefarming.powerinformerbackend.enums.DeviceEventType;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Builder
@@ -23,7 +23,7 @@ public class DeviceEvent {
     @ManyToOne
     @JoinColumn(name ="device_id",referencedColumnName = "device_id",nullable = false)
     private Device device;
-    private ZonedDateTime eventTime;
+    private LocalDateTime eventTime ;
     @Enumerated(EnumType.STRING)
     private DeviceEventType eventType;
 }

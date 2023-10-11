@@ -2,7 +2,7 @@ package com.managefarming.powerinformerbackend.DTO.device;
 
 import lombok.*;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -15,7 +15,7 @@ public class DeviceDto {
     private Long deviceId;
     private String deviceName;
     private String currentDeviceStatus;
-    private ZonedDateTime lastHeartBeatSignal;
+    private LocalDateTime lastHeartBeatSignal;
     private boolean isActivated;
     private String alertStartTime;
     private String alertEndTime;
