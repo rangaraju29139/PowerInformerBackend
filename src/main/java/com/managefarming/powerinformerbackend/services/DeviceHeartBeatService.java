@@ -3,6 +3,7 @@ package com.managefarming.powerinformerbackend.services;
 import com.managefarming.powerinformerbackend.entities.Device;
 import com.managefarming.powerinformerbackend.entities.DeviceEvent;
 import com.managefarming.powerinformerbackend.enums.DeviceEventType;
+import com.managefarming.powerinformerbackend.enums.HeartBeatCheckType;
 import com.managefarming.powerinformerbackend.enums.PowerStatus;
 import com.managefarming.powerinformerbackend.exceptions.DeviceEventNotCreatedException;
 import com.managefarming.powerinformerbackend.repositories.DeviceEventRepository;
@@ -13,8 +14,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -48,7 +49,7 @@ public class DeviceHeartBeatService {
         List<Device> allDevices = deviceRepository.findAll();
 
         Consumer<Device> consumer = (device)-> {
-          Optional<DeviceEvent> event = checkAndUpdateDeviceEvent(device);
+          Optional<DeviceEvent> event = checkAndUpdateDeviceEvent(device, HeartBeatCheckType.SCHEDULED_CHECK);
           if(event!= null){
 
               log.info("Event Occured on Device Id "+device.getDeviceId() + " Device name: "+device.getDeviceName()+ " Event: "+ event.get().getEventType()+" At time: "+ event.get().getEventTime());
@@ -59,21 +60,21 @@ public class DeviceHeartBeatService {
 
     }
 
-    @Scheduled(fixedRate = 200000,initialDelay = 100000)
+    @Scheduled(fixedRate = 30000,initialDelay = 20000)
     public void deleteOldEventDataFromDeviceEvent(){
         List<DeviceEvent> deviceEvents = deviceEventRepository.findAll();
 
         Predicate<DeviceEvent> predicate  = (deviceEvent -> {
            int numDaysLogKeeping = deviceRepository.findById(deviceEvent.getDevice().getDeviceId()).get().getNumDaysLogKeeping();
 
-         if(timeDifference(ZonedDateTime.now(ZoneId.of("Asia/Calcutta")),deviceEvent.getEventTime()) > numDaysLogKeeping*20){
+         if(timeDifference(LocalDateTime.now(),deviceEvent.getEventTime()) > numDaysLogKeeping*1440){
              return true;
          }
          return false;
         });
 
         Consumer<DeviceEvent> consumer = (deviceEvent -> {
-             deviceRepository.deleteById(deviceEvent.getId());
+             deviceEventRepository.deleteById(deviceEvent.getId());
         });
         if(deviceEvents.size() > 0){
            deviceEvents.stream().filter(predicate).forEach(consumer);
@@ -84,45 +85,49 @@ public class DeviceHeartBeatService {
 
 
 
-    public Optional<DeviceEvent> handleDeviceHeartBeat(Long deviceId, String deviceAuthCode) throws DeviceEventNotCreatedException {
+    public synchronized Optional<DeviceEvent> handleDeviceHeartBeat(Long deviceId, String deviceAuthCode) throws DeviceEventNotCreatedException {
         Device device = deviceRepository.findById(deviceId).get();
 
         if(device == null || !(device.getDeviceAuthCode().equalsIgnoreCase(deviceAuthCode))){
             return null;
         }
-        Optional<DeviceEvent> deviceEvent = checkAndUpdateDeviceEvent(device);
+        Optional<DeviceEvent> deviceEvent = checkAndUpdateDeviceEvent(device,HeartBeatCheckType.HEART_BEAT);
 
-        device.setLastHeartBeatSignal(ZonedDateTime.now(ZoneId.of("Asia/Calcutta")));
-        deviceRepository.save(device);
+
         return deviceEvent;
     }
 
-    public int timeDifference(ZonedDateTime now, ZonedDateTime lastHearBeatSignal){
-        return Math.abs((int)(now.toEpochSecond() - lastHearBeatSignal.toEpochSecond())/60);
+    public int timeDifference(LocalDateTime now, LocalDateTime lastHearBeatSignal){
+//        System.out.println(" now : "+ now.toString() + " lastHearBeatSignal : "+ lastHearBeatSignal.toString());
+        int timeDifference =  (int)ChronoUnit.MINUTES.between(now,lastHearBeatSignal);
+//        System.out.println("***** time difference : "+timeDifference);
+        return Math.abs(timeDifference);
     }
 
-    public synchronized  Optional<DeviceEvent>  checkAndUpdateDeviceEvent(Device device)  {
+    public   Optional<DeviceEvent>  checkAndUpdateDeviceEvent(Device device , HeartBeatCheckType checkType)  {
 
         Optional<DeviceEvent> event = null;
 
 
-        ZonedDateTime lastHearBeat = device.getLastHeartBeatSignal();
-        ZonedDateTime now  = ZonedDateTime.now(ZoneId.of("Asia/Calcutta"));
+        LocalDateTime lastHearBeat = device.getLastHeartBeatSignal();
+        LocalDateTime now = LocalDateTime.now();
         if(timeDifference(now,lastHearBeat) > device.getMinutesDelayToNotify() ){
             if(device.getCurrentDeviceStatus() == PowerStatus.AVAILABLE){
                 device.setCurrentDeviceStatus(PowerStatus.NOT_AVAILABLE);
-
               event = Optional.ofNullable(deviceEventService.udpateEvent(device, DeviceEventType.ON_TO_OFF));
-                twilioService.sendInformation(device,DeviceEventType.ON_TO_OFF);
-            }else if(device.getCurrentDeviceStatus() == PowerStatus.NOT_AVAILABLE){
+                deviceRepository.save(device);
+              twilioService.sendInformation(device,DeviceEventType.ON_TO_OFF);
+            }else if(device.getCurrentDeviceStatus() == PowerStatus.NOT_AVAILABLE && checkType == HeartBeatCheckType.HEART_BEAT){
                 device.setCurrentDeviceStatus(PowerStatus.AVAILABLE);
+                device.setLastHeartBeatSignal(LocalDateTime.now());
+                deviceRepository.save(device);
              event = Optional.ofNullable(deviceEventService.udpateEvent(device, DeviceEventType.OFF_TO_ON));
                 twilioService.sendInformation(device,DeviceEventType.OFF_TO_ON);
             }
 
+
         }
 
-        deviceRepository.save(device);
         return event;
     }
 }

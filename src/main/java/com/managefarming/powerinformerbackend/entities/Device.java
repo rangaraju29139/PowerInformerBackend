@@ -1,14 +1,10 @@
 package com.managefarming.powerinformerbackend.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.managefarming.powerinformerbackend.enums.PowerStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.core.annotation.Order;
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -43,7 +39,7 @@ public class Device {
 
 //    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd@HH:mm:ss",locale = "en_IN")
     @Column(name = "last_heartbeat_signal")
-    private ZonedDateTime lastHeartBeatSignal;
+    private LocalDateTime lastHeartBeatSignal;
 
     @Column(name = "is_activated", columnDefinition = "boolean default true")
     private Boolean isActivated;

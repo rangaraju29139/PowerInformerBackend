@@ -7,8 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,7 +15,7 @@ import java.time.ZonedDateTime;
 public class DeviceRequestDtoMapper {
 
     public static Device maptoDevice(DeviceRequestDto deviceRequestDto){
-        Device device = Device.builder()
+       return Device.builder()
                 .deviceName(deviceRequestDto.getDeviceName())
                 .currentDeviceStatus(deviceRequestDto.getCurrentDeviceStatus())
                 .alertStartTime(deviceRequestDto.getAlertStartTime())
@@ -24,8 +23,8 @@ public class DeviceRequestDtoMapper {
                 .isActivated(deviceRequestDto.isActivated())
                 .minutesDelayToNotify(deviceRequestDto.getMinutesDelayToNotify())
                 .numDaysLogKeeping(deviceRequestDto.getNumDaysLogKeeping())
-                .lastHeartBeatSignal(ZonedDateTime.now(ZoneId.of("Asia/Calcutta")))
+                .lastHeartBeatSignal(LocalDateTime.now())
                 .build();
-        return device;
+
     }
 }

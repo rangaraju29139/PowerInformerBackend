@@ -4,7 +4,7 @@ package com.managefarming.powerinformerbackend.DTO.deviceEvent;
 import com.managefarming.powerinformerbackend.enums.DeviceEventType;
 import lombok.*;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -15,7 +15,7 @@ public class DeviceEventDto {
 
     private Long id;
     private Long deviceId;
-    private ZonedDateTime eventTime;
+    private LocalDateTime eventTime;
     private DeviceEventType eventType;
 
 

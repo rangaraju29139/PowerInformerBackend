@@ -3,11 +3,10 @@ package com.managefarming.powerinformerbackend.DTO.device.mapper;
 
 import com.managefarming.powerinformerbackend.DTO.device.DeviceDto;
 import com.managefarming.powerinformerbackend.entities.Device;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
+
 
 @Getter
 @Setter
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class DeviceDtoMapper {
 
     public static DeviceDto maptoDeviceDto(Device device){
-        DeviceDto deviceDto = DeviceDto.builder()
+        return  DeviceDto.builder()
                 .deviceId(device.getDeviceId())
                 .deviceName(device.getDeviceName())
                 .currentDeviceStatus(device.getCurrentDeviceStatus().toString())
@@ -26,6 +25,6 @@ public class DeviceDtoMapper {
                 .numDaysLogKeeping(device.getNumDaysLogKeeping())
                 .lastHeartBeatSignal(device.getLastHeartBeatSignal())
                 .build();
-        return deviceDto;
+       
     }
 }

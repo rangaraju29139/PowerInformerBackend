@@ -8,7 +8,8 @@ import com.managefarming.powerinformerbackend.repositories.DeviceEventRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
+
 
 
 @Service
@@ -18,7 +19,7 @@ public class DeviceEventService {
     private DeviceEventRepository deviceEventRepository;
     public DeviceEvent udpateEvent(Device device, DeviceEventType deviceEventType)  {
         DeviceEvent event = DeviceEvent.builder()
-                .eventTime(ZonedDateTime.now())
+                .eventTime(LocalDateTime.now())
                 .eventType(deviceEventType)
                 .device(device)
                 .build();
