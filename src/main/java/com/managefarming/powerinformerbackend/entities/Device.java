@@ -23,6 +23,10 @@ public class Device {
     @Column(name = "device_id")
     private Long deviceId;
     @ManyToOne
+    @JoinColumn(name = "farmer_id",referencedColumnName = "farmer_id",nullable = false)
+    private Farmer farmer;
+
+    @ManyToOne
     @JoinColumn(name = "farm_id",referencedColumnName = "farm_id",nullable = false)
     private Farm farm;
 
