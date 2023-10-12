@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class Device {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "device_id")
     private Long deviceId;
     @ManyToOne

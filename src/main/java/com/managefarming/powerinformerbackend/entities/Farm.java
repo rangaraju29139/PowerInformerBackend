@@ -1,13 +1,7 @@
 package com.managefarming.powerinformerbackend.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.core.annotation.Order;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -21,7 +15,7 @@ public class Farm {
 
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "farm_id")
     private long farmId;
 

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class DeviceEvent {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     //should refer to the deviceid in the device entity
