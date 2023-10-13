@@ -4,12 +4,10 @@ package com.managefarming.powerinformerbackend.controllers;
 import com.managefarming.powerinformerbackend.DTO.farm.FarmResponseDto;
 import com.managefarming.powerinformerbackend.DTO.farmer.FarmerRequestDto;
 import com.managefarming.powerinformerbackend.DTO.farmer.FarmerResponseDto;
-import com.managefarming.powerinformerbackend.entities.Farm;
 import com.managefarming.powerinformerbackend.entities.Farmer;
 import com.managefarming.powerinformerbackend.exceptions.FarmNotFoundException;
 import com.managefarming.powerinformerbackend.exceptions.FarmerNotFoundException;
 import com.managefarming.powerinformerbackend.services.FarmerService;
-import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +46,16 @@ public class FarmerController {
         return ResponseEntity.ok(result);
     }
 
+    @RequestMapping(value = "/farmers/{farmerId}", method = RequestMethod.PUT)
+    public ResponseEntity<FarmerResponseDto> updateFarmer(@PathVariable Long farmerId,@RequestBody FarmerRequestDto farmerRequestDto){
+        FarmerResponseDto farmer = farmerService.updateFarmer(farmerRequestDto);
+
+        if(farmer == null){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(farmer);
+    }
+
     @RequestMapping(value = "/farmers/{farmerId}/farms",method = RequestMethod.GET)
     public ResponseEntity<List<FarmResponseDto>> getFarmsByFarmerId(@PathVariable Long farmerId){
         List<FarmResponseDto> result = farmerService.getFarmersByFarmerId(farmerId);
@@ -57,6 +65,8 @@ public class FarmerController {
         }
         return ResponseEntity.ok(result);
     }
+
+
 
 
 

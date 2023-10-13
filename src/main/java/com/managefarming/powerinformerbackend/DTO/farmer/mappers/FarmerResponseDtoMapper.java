@@ -1,6 +1,5 @@
 package com.managefarming.powerinformerbackend.DTO.farmer.mappers;
 
-import com.managefarming.powerinformerbackend.DTO.farmer.FarmerRequestDto;
 import com.managefarming.powerinformerbackend.DTO.farmer.FarmerResponseDto;
 import com.managefarming.powerinformerbackend.entities.Farmer;
 
@@ -14,6 +13,7 @@ public class FarmerResponseDtoMapper {
                 .lastName(farmer.getLastName())
                 .phoneNumber(farmer.getPhoneNumber())
                 .balance(farmer.getBalance())
+                .password(farmer.getPassword())
                 .build();
         return farmerResponseDto;
 

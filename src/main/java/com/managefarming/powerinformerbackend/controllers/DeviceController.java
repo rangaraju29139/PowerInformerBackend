@@ -4,6 +4,7 @@ package com.managefarming.powerinformerbackend.controllers;
 import com.managefarming.powerinformerbackend.DTO.device.DeviceDto;
 import com.managefarming.powerinformerbackend.DTO.device.DeviceRequestDto;
 import com.managefarming.powerinformerbackend.DTO.device.mapper.DeviceRequestDtoMapper;
+import com.managefarming.powerinformerbackend.DTO.deviceEvent.DeviceEventDto;
 import com.managefarming.powerinformerbackend.entities.Device;
 import com.managefarming.powerinformerbackend.exceptions.DeviceNotCreatedException;
 import com.managefarming.powerinformerbackend.services.DeviceService;
@@ -73,6 +74,15 @@ public class DeviceController {
         return ResponseEntity.ok(deviceDtos);
 
 
+    }
+
+    @RequestMapping(value ="/devices/{deviceId}/device-events",method = RequestMethod.GET)
+    public ResponseEntity<List<DeviceEventDto>> getDeviceEventsByDeviceId(@PathVariable long deviceId){
+        List<DeviceEventDto> deviceEvents = deviceService.getDeviceEventsByDeviceId(deviceId);
+        if(deviceEvents==null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(deviceEvents);
 
     }
 
