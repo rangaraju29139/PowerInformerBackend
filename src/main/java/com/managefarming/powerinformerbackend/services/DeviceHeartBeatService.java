@@ -118,21 +118,21 @@ public class DeviceHeartBeatService {
                 if(currentPowerStatus == PowerStatus.AVAILABLE){
                     System.out.println("timeDiff "+timeDiff+" currentPowerStatus "+currentPowerStatus);
                     device.setCurrentDeviceStatus(PowerStatus.NOT_AVAILABLE);
-                    device.setLastHeartBeatSignal(LocalDateTime.now());
                     event = Optional.ofNullable(deviceEventService.udpateEvent(device, DeviceEventType.ON_TO_OFF));
                     deviceRepository.save(device);
                     twilioService.sendInformation(device,DeviceEventType.ON_TO_OFF);
-                }else if(device.getCurrentDeviceStatus() == PowerStatus.NOT_AVAILABLE && checkType == HeartBeatCheckType.HEART_BEAT){
-                    System.out.println("timeDiff "+timeDiff+" currentPowerStatus "+currentPowerStatus);
-                    device.setCurrentDeviceStatus(PowerStatus.AVAILABLE);
-                    device.setLastHeartBeatSignal(LocalDateTime.now());
-                    deviceRepository.save(device);
-                    event = Optional.ofNullable(deviceEventService.udpateEvent(device, DeviceEventType.OFF_TO_ON));
-                    twilioService.sendInformation(device,DeviceEventType.OFF_TO_ON);
                 }
 
 
-            }else{
+            }
+            if(device.getCurrentDeviceStatus() == PowerStatus.NOT_AVAILABLE  && checkType==HeartBeatCheckType.HEART_BEAT){
+                System.out.println("timeDiff "+timeDiff+" currentPowerStatus "+currentPowerStatus);
+                device.setCurrentDeviceStatus(PowerStatus.AVAILABLE);
+                deviceRepository.save(device);
+                event = Optional.ofNullable(deviceEventService.udpateEvent(device, DeviceEventType.OFF_TO_ON));
+                twilioService.sendInformation(device,DeviceEventType.OFF_TO_ON);
+            }
+            if(checkType==HeartBeatCheckType.HEART_BEAT){
                 System.out.println("timeDiff "+timeDiff+" currentPowerStatus "+currentPowerStatus);
                 device.setLastHeartBeatSignal(LocalDateTime.now());
                 deviceRepository.save(device);
