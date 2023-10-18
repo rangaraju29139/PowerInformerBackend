@@ -1,12 +1,8 @@
 package com.managefarming.powerinformerbackend.DTO.farmer;
 
 
-import com.managefarming.powerinformerbackend.entities.Farm;
-import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
 
 
 @Data
@@ -20,4 +16,5 @@ public class FarmerResponseDto {
     private String countryCode;
     private String email;
     private Double balance;
+    private String password;
 }

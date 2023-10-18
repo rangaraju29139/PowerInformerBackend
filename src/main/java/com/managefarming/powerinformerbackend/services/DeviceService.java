@@ -2,11 +2,16 @@ package com.managefarming.powerinformerbackend.services;
 
 import com.managefarming.powerinformerbackend.DTO.device.DeviceDto;
 import com.managefarming.powerinformerbackend.DTO.device.mapper.DeviceDtoMapper;
+import com.managefarming.powerinformerbackend.DTO.deviceEvent.DeviceEventDto;
+import com.managefarming.powerinformerbackend.DTO.deviceEvent.mappers.DeviceEventDtoMapper;
 import com.managefarming.powerinformerbackend.entities.Device;
+import com.managefarming.powerinformerbackend.entities.DeviceEvent;
 import com.managefarming.powerinformerbackend.entities.Farm;
 import com.managefarming.powerinformerbackend.entities.Farmer;
+import com.managefarming.powerinformerbackend.exceptions.DeviceEventNotFoundException;
 import com.managefarming.powerinformerbackend.exceptions.DevicesNotFoundException;
 import com.managefarming.powerinformerbackend.exceptions.FarmerNotFoundException;
+import com.managefarming.powerinformerbackend.repositories.DeviceEventRepository;
 import com.managefarming.powerinformerbackend.repositories.DeviceRepository;
 import com.managefarming.powerinformerbackend.repositories.FarmRepository;
 import com.managefarming.powerinformerbackend.repositories.FarmerRepository;
@@ -28,6 +33,9 @@ public class DeviceService {
 
     @Autowired
     private FarmerRepository farmerRepository;
+
+    @Autowired
+    private DeviceEventRepository deviceEventRepository;
 
     public DeviceDto createDevice(Long farmId, Device device){
         Farm farm = farmRepository.findById(farmId).get();
@@ -60,6 +68,23 @@ public class DeviceService {
 
 
 
+
+    }
+
+    public List<DeviceEventDto> getDeviceEventsByDeviceId(long deviceId) {
+        Device device = deviceRepository.findById(deviceId).get();
+        if(device==null){
+            throw new DevicesNotFoundException("Device not found with id " + deviceId);
+        }
+        List<DeviceEvent> deviceEvents = deviceEventRepository.findByDeviceOrderByEventTime(device);
+
+        if(deviceEvents == null){
+            throw new DeviceEventNotFoundException("Device event not found with device id " + deviceId);
+        }
+
+        return deviceEvents.stream().map(deviceEvent -> {
+          return   DeviceEventDtoMapper.mapToDeviceEventDto(deviceEvent);
+        }).collect(Collectors.toList());
 
     }
 }
