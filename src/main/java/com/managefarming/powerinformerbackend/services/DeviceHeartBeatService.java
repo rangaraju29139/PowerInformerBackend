@@ -106,28 +106,41 @@ public class DeviceHeartBeatService {
 
     public   Optional<DeviceEvent>  checkAndUpdateDeviceEvent(Device device , HeartBeatCheckType checkType)  {
 
-        Optional<DeviceEvent> event = null;
+        synchronized (device){
+            Optional<DeviceEvent> event = null;
+            PowerStatus currentPowerStatus = device.getCurrentDeviceStatus();
 
 
-        LocalDateTime lastHearBeat = device.getLastHeartBeatSignal();
-        LocalDateTime now = LocalDateTime.now();
-        if(timeDifference(now,lastHearBeat) > device.getMinutesDelayToNotify() ){
-            if(device.getCurrentDeviceStatus() == PowerStatus.AVAILABLE){
-                device.setCurrentDeviceStatus(PowerStatus.NOT_AVAILABLE);
-              event = Optional.ofNullable(deviceEventService.udpateEvent(device, DeviceEventType.ON_TO_OFF));
-                deviceRepository.save(device);
-              twilioService.sendInformation(device,DeviceEventType.ON_TO_OFF);
-            }else if(device.getCurrentDeviceStatus() == PowerStatus.NOT_AVAILABLE && checkType == HeartBeatCheckType.HEART_BEAT){
-                device.setCurrentDeviceStatus(PowerStatus.AVAILABLE);
+            LocalDateTime lastHearBeat = device.getLastHeartBeatSignal().plusHours(0);
+            LocalDateTime now = LocalDateTime.now().plusHours(0);
+            int timeDiff = timeDifference(now,lastHearBeat);
+            if( timeDiff> device.getMinutesDelayToNotify() ){
+                if(currentPowerStatus == PowerStatus.AVAILABLE){
+                    System.out.println("timeDiff "+timeDiff+" currentPowerStatus "+currentPowerStatus);
+                    device.setCurrentDeviceStatus(PowerStatus.NOT_AVAILABLE);
+                    device.setLastHeartBeatSignal(LocalDateTime.now());
+                    event = Optional.ofNullable(deviceEventService.udpateEvent(device, DeviceEventType.ON_TO_OFF));
+                    deviceRepository.save(device);
+                    twilioService.sendInformation(device,DeviceEventType.ON_TO_OFF);
+                }else if(device.getCurrentDeviceStatus() == PowerStatus.NOT_AVAILABLE && checkType == HeartBeatCheckType.HEART_BEAT){
+                    System.out.println("timeDiff "+timeDiff+" currentPowerStatus "+currentPowerStatus);
+                    device.setCurrentDeviceStatus(PowerStatus.AVAILABLE);
+                    device.setLastHeartBeatSignal(LocalDateTime.now());
+                    deviceRepository.save(device);
+                    event = Optional.ofNullable(deviceEventService.udpateEvent(device, DeviceEventType.OFF_TO_ON));
+                    twilioService.sendInformation(device,DeviceEventType.OFF_TO_ON);
+                }
+
+
+            }else{
+                System.out.println("timeDiff "+timeDiff+" currentPowerStatus "+currentPowerStatus);
                 device.setLastHeartBeatSignal(LocalDateTime.now());
                 deviceRepository.save(device);
-             event = Optional.ofNullable(deviceEventService.udpateEvent(device, DeviceEventType.OFF_TO_ON));
-                twilioService.sendInformation(device,DeviceEventType.OFF_TO_ON);
             }
 
+            return event;
 
         }
 
-        return event;
     }
 }
