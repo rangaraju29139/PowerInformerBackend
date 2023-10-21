@@ -8,6 +8,7 @@ import com.managefarming.powerinformerbackend.entities.Farmer;
 import com.managefarming.powerinformerbackend.exceptions.FarmNotFoundException;
 import com.managefarming.powerinformerbackend.exceptions.FarmerNotFoundException;
 import com.managefarming.powerinformerbackend.services.FarmerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class FarmerController {
 
 
     @RequestMapping(value = "/farmers",method = RequestMethod.POST)
-    public ResponseEntity<FarmerResponseDto> createFarmer( @RequestBody Farmer farmer){
+    public ResponseEntity<FarmerResponseDto> createFarmer(@Valid @RequestBody Farmer farmer){
         FarmerResponseDto result = farmerService.createFarmer(farmer);
 
         if(result == null){
@@ -47,7 +48,7 @@ public class FarmerController {
     }
 
     @RequestMapping(value = "/farmers/{farmerId}", method = RequestMethod.PUT)
-    public ResponseEntity<FarmerResponseDto> updateFarmer(@PathVariable Long farmerId,@RequestBody FarmerRequestDto farmerRequestDto){
+    public ResponseEntity<FarmerResponseDto> updateFarmer(@PathVariable Long farmerId,@Valid  @RequestBody FarmerRequestDto farmerRequestDto){
         FarmerResponseDto farmer = farmerService.updateFarmer(farmerRequestDto);
 
         if(farmer == null){

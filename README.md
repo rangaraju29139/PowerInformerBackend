@@ -26,19 +26,8 @@ Build and application that informs the farmer whether the power exists in the re
 
 
 
-## Api's 
+## Api's  Documentation 
 
 
-1. Post : ```http://localhost:8080/farmers```
-   - Headers: ```Content-Type: application/json```
-     - Body: ```
-       {
-       "firstName": "xxxxx",
-       "lastName": "xxxxxxx",
-       "phoneNumber": "xxxxxxx",
-       "countryCode": "+xx",
-       "email": "xxxxxxxxxx@gmail.com",
-       "password": "xxxxxxxx",
-       "balance": xxx.0
-       }
-               ```
+[Swagger Documentation link](https://app.swaggerhub.com/apis-docs/RANGARAJU29139_1/open-api_definition/v0)
+
