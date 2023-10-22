@@ -31,3 +31,5 @@ Build and application that informs the farmer whether the power exists in the re
 
 [Swagger Documentation link](https://app.swaggerhub.com/apis-docs/RANGARAJU29139_1/open-api_definition/v0)
 
+#### HAL Explorer link 
+http://localhost:8080/explorer/index.html
