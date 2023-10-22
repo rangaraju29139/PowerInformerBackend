@@ -21,6 +21,9 @@ public class DeviceHearBeatController {
     @JsonIgnore
     @RequestMapping(value = "/devices/{deviceId}/heart-beat", method = RequestMethod.GET)
     public ResponseEntity handleDeviceHeartBeat(@PathVariable Long deviceId, @RequestParam String deviceAuthCode) throws DeviceEventNotCreatedException {
+
+        System.out.println("Received HeartBeat  "+deviceId);
+
         Optional<DeviceEvent> deviceEvent = deviceHeartBeatService.handleDeviceHeartBeat(deviceId,deviceAuthCode);
         if(deviceEvent==null){
             return ResponseEntity.ok("""

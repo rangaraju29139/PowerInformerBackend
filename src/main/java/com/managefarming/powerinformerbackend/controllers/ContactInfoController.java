@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class ContactInfoController {
+public class
+ContactInfoController {
 
     @Autowired
     private ContactInfoService contactInfoService;

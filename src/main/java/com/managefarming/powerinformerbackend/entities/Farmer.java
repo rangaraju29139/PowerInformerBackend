@@ -2,13 +2,9 @@ package com.managefarming.powerinformerbackend.entities;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -24,9 +20,12 @@ public class Farmer {
     @Column(name = "farmer_id")
     private Long farmerId;
 
+    @NotNull
+    @Size(min=2)
     @Column(name = "first_name",nullable = false)
     private String firstName;
 
+    @NotNull
     @Column(name = "last_name",nullable = false)
     private String lastName;
 
