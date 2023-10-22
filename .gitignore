@@ -31,5 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
 src/main/resources/secrets*.properties
 .env*
