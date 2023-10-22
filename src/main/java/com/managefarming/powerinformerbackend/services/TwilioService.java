@@ -1,7 +1,6 @@
 package com.managefarming.powerinformerbackend.services;
 
 import com.managefarming.powerinformerbackend.DTO.contactInfo.ContactInfoDto;
-import com.managefarming.powerinformerbackend.config.TwilioConfig;
 import com.managefarming.powerinformerbackend.entities.Device;
 import com.managefarming.powerinformerbackend.enums.DeviceEventType;
 import com.twilio.Twilio;
@@ -9,6 +8,7 @@ import com.twilio.rest.api.v2010.account.Call;
 import com.twilio.type.PhoneNumber;
 import com.twilio.type.Twiml;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +19,19 @@ public class TwilioService {
     @Autowired
     private ContactInfoService contactInfoService;
 
-    public static final String ACCOUNT_SID = TwilioConfig.ACCOUNT_SID;
-    public static final String AUTH_TOKEN = TwilioConfig.AUTH_TOKEN;
+
+
+
+    @Value("${twilio.secrets.TWILIO_CLIENT_ID}")
+    private  String ACCOUNT_SID ;
+    @Value("${twilio.secrets.TWILIO_CLIENT_SECRET}")
+    private  String AUTH_TOKEN;
+
+    @Value("${twilio.secrets.TWILIO_FROM_PHONENUMBER}")
+    private String FROM_PHONENUMBER;
+
+    @Value("${twilio.secrets.TWILIO_DEFAULT_TO_PHONENUMBER}")
+    private String DEFAULT_T0_PHONENUMBER;
 
 
     public void sendInformation(Device device, DeviceEventType deviceEventType) {
@@ -39,7 +50,7 @@ public class TwilioService {
 
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
-        String from = "+17408833657";
+        String from = FROM_PHONENUMBER;
         String to = completePhoneNumber;
 
         Call call = Call.creator(new PhoneNumber(to), new PhoneNumber(from),
@@ -50,11 +61,11 @@ public class TwilioService {
 
     public  void makeCall() {
 
-        String completePhoneNumber = "+919154644777";
+        String completePhoneNumber = DEFAULT_T0_PHONENUMBER;
 
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
-        String from = "+17408833657";
+        String from = FROM_PHONENUMBER;
         String to = completePhoneNumber;
 
         Call call = Call.creator(new PhoneNumber(to), new PhoneNumber(from),
